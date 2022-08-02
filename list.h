@@ -9,6 +9,7 @@ void showtaks();
 
 typedef struct
 {
+    int position;
     char buffer[100];
     char time[50];
     int state;
