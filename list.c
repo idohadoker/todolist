@@ -104,9 +104,53 @@ void createtask()
 // edit task and time
 void edittask()
 {
-    system("clear");
+    int task;
+    char new_task[100];
 
-    printf("\n-------------------------Edit Task-------------------------\n");
+    system("clear");
+    printf("\n-------------------------Edit Tasks-------------------------\n");
+
+    nodeptr pos = list;
+    int i = 1;
+
+    while (pos)
+    {
+        printf("\n Task %d Time|- %s\t", i++, pos->data.time);
+        printf("|- %s\t", pos->data.buffer);
+        switch (pos->data.state)
+        {
+        case 0:
+            printf("\t not done\n");
+            break;
+        case 1:
+            printf("\t done\n");
+            break;
+        default:
+            break;
+        }
+        pos = pos->next;
+    }
+    printf("\n Enter task to change\n");
+    scanf("%d", &task);
+
+    printf("\n Enter new task \n");
+    scanf(" %99[a-zA-Z0-9 ]", new_task);
+
+    pos = list;
+    i = 0;
+    while (pos && i < task - 1)
+    {
+        pos = pos->next;
+        i++;
+    }
+    strncpy(pos->data.buffer, new_task, 100);
+    pos->data.state = 0;
+    time_t rawtime;
+    struct tm *timeinfo;
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+    strncpy(pos->data.time, asctime(timeinfo), 50);
+    sleep(2);
 }
 
 // delete task list
@@ -156,7 +200,7 @@ void mark_as_done()
 {
     int task;
     system("clear");
-    printf("\n-------------------------Show Tasks-------------------------\n");
+    printf("\n-------------------------Mark AS DONE-------------------------\n");
     if (list == NULL)
     {
         printf("no tasks available\n");
