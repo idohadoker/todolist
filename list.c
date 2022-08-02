@@ -50,56 +50,63 @@ void createtask()
     int i = 0;
     system("clear");
     printf("\n-------------------------Create Task-------------------------\n");
-    printf("enter new task\n");
+    printf("enter new task (type exit to leave)\n");
     char new_task[100];
-
     scanf(" %99[a-zA-Z0-9 ]", new_task);
 
-    nodeptr new_node = (nodeptr)malloc(sizeof(node));
-    if (new_node == NULL)
+    if (strncmp(new_task, "exit", 5) == 0)
     {
-        printf("Memory allocation failure\n");
-        exit(1);
-    }
-    new_node->next = NULL;
-    strncpy(new_node->data.buffer, new_task, sizeof(new_task));
-    new_node->data.state = 0;
-    time_t rawtime;
-    struct tm *timeinfo;
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-    strncpy(new_node->data.time, asctime(timeinfo), 50);
-    if (list == NULL)
-    {
-        new_node->data.position = i;
-        list = (nodeptr)malloc(sizeof(node));
-        if (list == NULL)
-        {
-            printf("Memory allocation failure\n");
-            exit(1);
-        }
-        *list = *new_node;
+        printf("leaving program\n");
     }
     else
     {
-        nodeptr pos = list;
-        while (pos->next != NULL)
-        {
-            pos->data.position = i++;
-            pos = pos->next;
-        }
-        pos->next = malloc(sizeof(node));
-        if (pos->next == NULL)
+
+        nodeptr new_node = (nodeptr)malloc(sizeof(node));
+        if (new_node == NULL)
         {
             printf("Memory allocation failure\n");
             exit(1);
         }
-        new_node->data.position = i;
-        *pos->next = *new_node;
-    }
+        new_node->next = NULL;
+        strncpy(new_node->data.buffer, new_task, sizeof(new_task));
+        new_node->data.state = 0;
+        time_t rawtime;
+        struct tm *timeinfo;
+        time(&rawtime);
+        timeinfo = localtime(&rawtime);
+        strncpy(new_node->data.time, asctime(timeinfo), 50);
+        if (list == NULL)
+        {
+            new_node->data.position = i;
+            list = (nodeptr)malloc(sizeof(node));
+            if (list == NULL)
+            {
+                printf("Memory allocation failure\n");
+                exit(1);
+            }
+            *list = *new_node;
+        }
+        else
+        {
+            nodeptr pos = list;
+            while (pos->next != NULL)
+            {
+                pos->data.position = i++;
+                pos = pos->next;
+            }
+            pos->next = malloc(sizeof(node));
+            if (pos->next == NULL)
+            {
+                printf("Memory allocation failure\n");
+                exit(1);
+            }
+            new_node->data.position = i;
+            *pos->next = *new_node;
+        }
 
-    free(new_node);
-    length++;
+        free(new_node);
+        length++;
+    }
     sleep(2);
 }
 // edit task and time
@@ -111,52 +118,66 @@ void edittask()
     system("clear");
     printf("\n-------------------------Edit Tasks-------------------------\n");
 
-    nodeptr pos = list;
-    int i = 0;
-
-    while (pos)
+    if (list == NULL)
     {
-        pos->data.position = i++;
-        printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
-        printf("|- %s\t", pos->data.buffer);
-        switch (pos->data.state)
-        {
-        case 0:
-            printf("\t not done\n");
-            break;
-        case 1:
-            printf("\t done\n");
-            break;
-        default:
-            break;
-        }
-        pos = pos->next;
+        printf("no tasks available\n");
+        sleep(3);
     }
-    printf("\n Enter task to change\n");
-    scanf("%d", &task);
-    if (task <= length)
+    else
     {
-        printf("\n Enter new task \n");
-        scanf(" %99[a-zA-Z0-9 ]", new_task);
+        nodeptr pos = list;
+        int i = 0;
 
-        pos = list;
-        i = 0;
-        while (pos && i < task - 1)
+        while (pos)
         {
+            pos->data.position = i++;
+            printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
+            printf("|- %s\t", pos->data.buffer);
+            switch (pos->data.state)
+            {
+            case 0:
+                printf("\t not done\n");
+                break;
+            case 1:
+                printf("\t done\n");
+                break;
+            default:
+                break;
+            }
             pos = pos->next;
-            i++;
         }
-        strncpy(pos->data.buffer, new_task, 100);
-        pos->data.state = 0;
-        time_t rawtime;
-        struct tm *timeinfo;
-        time(&rawtime);
-        timeinfo = localtime(&rawtime);
-        strncpy(pos->data.time, asctime(timeinfo), 50);
-        sleep(2);
+        printf("\n Enter task to change (press 0 to leave)\n");
+        scanf("%d", &task);
+        if (task == 0)
+        {
+            printf("leaving program\n");
+        }
+        else
+        {
+            if (task <= length)
+            {
+                printf("\n Enter new task \n");
+                scanf(" %99[a-zA-Z0-9 ]", new_task);
+
+                pos = list;
+                i = 0;
+                while (pos && i < task - 1)
+                {
+                    pos = pos->next;
+                    i++;
+                }
+                strncpy(pos->data.buffer, new_task, 100);
+                pos->data.state = 0;
+                time_t rawtime;
+                struct tm *timeinfo;
+                time(&rawtime);
+                timeinfo = localtime(&rawtime);
+                strncpy(pos->data.time, asctime(timeinfo), 50);
+                sleep(2);
+            }
+        }
     }
 }
-
 // delete task list
 void deletetask()
 {
@@ -170,54 +191,64 @@ void deletetask()
         printf("no tasks available\n");
         sleep(3);
     }
-    nodeptr pos = list;
-    i = 0;
-
-    while (pos)
+    else
     {
-        pos->data.position = i++;
-        printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
-        printf("|- %s\t", pos->data.buffer);
-        switch (pos->data.state)
+        nodeptr pos = list;
+        i = 0;
+
+        while (pos)
         {
-        case 0:
-            printf("\t not done\n");
-            break;
-        case 1:
-            printf("\t done\n");
-            break;
-        default:
-            break;
+            pos->data.position = i++;
+            printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
+            printf("|- %s\t", pos->data.buffer);
+            switch (pos->data.state)
+            {
+            case 0:
+                printf("\t not done\n");
+                break;
+            case 1:
+                printf("\t done\n");
+                break;
+            default:
+                break;
+            }
+            pos = pos->next;
         }
-        pos = pos->next;
-    }
-    pos = list;
-    i = 0;
-    printf("\n Enter task to delete\n");
-    scanf("%d", &task);
-    if (task <= length)
-    {
-        nodeptr temp = list;
-        if (task - 1 == 0)
+        pos = list;
+        i = 0;
+        printf("\n Enter task to delete (press 0 to leave)\n");
+        scanf("%d", &task);
+        if (task == 0)
         {
-
-            list = list->next;
-            temp->next = NULL;
-            free(temp);
+            printf("leaving program\n");
         }
         else
         {
-            for (i = 0; i < task - 2; i++)
+            if (task <= length)
             {
-                temp = temp->next;
+                nodeptr temp = list;
+                if (task - 1 == 0)
+                {
+
+                    list = list->next;
+                    temp->next = NULL;
+                    free(temp);
+                }
+                else
+                {
+                    for (i = 0; i < task - 2; i++)
+                    {
+                        temp = temp->next;
+                    }
+                    nodeptr del = temp->next;
+                    temp->next = temp->next->next;
+                    del->next = NULL;
+                    free(del);
+                }
+                length--;
+                sleep(2);
             }
-            nodeptr del = temp->next;
-            temp->next = temp->next->next;
-            del->next = NULL;
-            free(del);
         }
-        length--;
-        sleep(2);
     }
 }
 // show all tasks
@@ -230,29 +261,33 @@ void showtaks()
         printf("no tasks available\n");
         sleep(3);
     }
-    nodeptr pos = list;
-    int i = 0;
-
-    while (pos)
+    else
     {
-        pos->data.position = i++;
-        printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
-        printf("|- %s\t", pos->data.buffer);
-        switch (pos->data.state)
+        nodeptr pos = list;
+        int i = 0;
+
+        while (pos)
         {
-        case 0:
-            printf("\t not done\n");
-            break;
-        case 1:
-            printf("\t done\n");
-            break;
-        default:
-            break;
+            pos->data.position = i++;
+            printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
+            printf("|- %s\t", pos->data.buffer);
+            switch (pos->data.state)
+            {
+            case 0:
+                printf("\t not done\n");
+                break;
+            case 1:
+                printf("\t done\n");
+                break;
+            default:
+                break;
+            }
+            pos = pos->next;
         }
-        pos = pos->next;
+
+        printf("\n press enter to key continue...\n");
+        getchar();
     }
-    printf("\n press enter to key continue...\n");
-    getchar();
 }
 
 // mark task as done
@@ -266,37 +301,47 @@ void mark_as_done()
         printf("no tasks available\n");
         sleep(3);
     }
-    nodeptr pos = list;
-    int i = 0;
+    else
+    {
+        nodeptr pos = list;
+        int i = 0;
 
-    while (pos)
-    {
-        pos->data.position = i++;
-        printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
-        printf("|- %s\t", pos->data.buffer);
-        switch (pos->data.state)
+        while (pos)
         {
-        case 0:
-            printf("\t not done\n");
-            break;
-        case 1:
-            printf("\t done\n");
-            break;
-        default:
-            break;
+            pos->data.position = i++;
+            printf("\n Task %d Time|- %s\t", pos->data.position + 1, pos->data.time);
+            printf("|- %s\t", pos->data.buffer);
+            switch (pos->data.state)
+            {
+            case 0:
+                printf("\t not done\n");
+                break;
+            case 1:
+                printf("\t done\n");
+                break;
+            default:
+                break;
+            }
+            pos = pos->next;
         }
-        pos = pos->next;
+        printf("\n Enter task to mark (press 0 to leave)\n");
+        scanf("%d", &task);
+        if (task == 0)
+        {
+            printf("leaving program\n");
+        }
+        else
+        {
+            pos = list;
+            i = 0;
+            while (i < task - 1)
+            {
+                pos = pos->next;
+                i++;
+            }
+            if (pos->data.state == 0)
+                pos->data.state = 1;
+            sleep(2);
+        }
     }
-    printf("\n Enter task to mark\n");
-    scanf("%d", &task);
-    pos = list;
-    i = 0;
-    while (i < task - 1)
-    {
-        pos = pos->next;
-        i++;
-    }
-    if (pos->data.state == 0)
-        pos->data.state = 1;
-    sleep(2);
 }
