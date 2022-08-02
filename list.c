@@ -46,7 +46,7 @@ void options()
         getchar();
     }
 }
-
+// list
 void createtask()
 {
 
@@ -109,7 +109,7 @@ void edittask()
     printf("\n-------------------------Edit Task-------------------------\n");
 }
 
-// delete task
+// delete task list
 void deletetask()
 {
     system("clear");
@@ -145,7 +145,6 @@ void showtaks()
         default:
             break;
         }
-        fflush(stdout);
         pos = pos->next;
     }
     printf("\n press enter to key continue...\n");
@@ -155,4 +154,44 @@ void showtaks()
 // mark task as done
 void mark_as_done()
 {
+    int task;
+    system("clear");
+    printf("\n-------------------------Show Tasks-------------------------\n");
+    if (list == NULL)
+    {
+        printf("no tasks available\n");
+        sleep(3);
+    }
+    nodeptr pos = list;
+    int i = 1;
+
+    while (pos)
+    {
+        printf("\n Task %d Time|- %s\t", i++, pos->data.time);
+        printf("|- %s\t", pos->data.buffer);
+        switch (pos->data.state)
+        {
+        case 0:
+            printf("\t not done\n");
+            break;
+        case 1:
+            printf("\t done\n");
+            break;
+        default:
+            break;
+        }
+        pos = pos->next;
+    }
+    printf("\n Enter task to mark\n");
+    scanf("%d", &task);
+    pos = list;
+    i = 0;
+    while (i < task - 1)
+    {
+        pos = pos->next;
+        i++;
+    }
+    if (pos->data.state == 0)
+        pos->data.state = 1;
+    sleep(2);
 }
