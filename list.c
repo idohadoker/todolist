@@ -1,10 +1,9 @@
 #include "list.h"
 void options();
-void createtask();
 void edittask();
-void deletetask();
 void mark_as_done();
 nodeptr list = NULL;
+int length = 0;
 
 int main(int argc, char const *argv[])
 {
@@ -46,7 +45,6 @@ void options()
         getchar();
     }
 }
-// list
 void createtask()
 {
     int i = 0;
@@ -101,6 +99,7 @@ void createtask()
     }
 
     free(new_node);
+    length++;
     sleep(2);
 }
 // edit task and time
@@ -135,25 +134,27 @@ void edittask()
     }
     printf("\n Enter task to change\n");
     scanf("%d", &task);
-
-    printf("\n Enter new task \n");
-    scanf(" %99[a-zA-Z0-9 ]", new_task);
-
-    pos = list;
-    i = 0;
-    while (pos && i < task - 1)
+    if (task <= length)
     {
-        pos = pos->next;
-        i++;
+        printf("\n Enter new task \n");
+        scanf(" %99[a-zA-Z0-9 ]", new_task);
+
+        pos = list;
+        i = 0;
+        while (pos && i < task - 1)
+        {
+            pos = pos->next;
+            i++;
+        }
+        strncpy(pos->data.buffer, new_task, 100);
+        pos->data.state = 0;
+        time_t rawtime;
+        struct tm *timeinfo;
+        time(&rawtime);
+        timeinfo = localtime(&rawtime);
+        strncpy(pos->data.time, asctime(timeinfo), 50);
+        sleep(2);
     }
-    strncpy(pos->data.buffer, new_task, 100);
-    pos->data.state = 0;
-    time_t rawtime;
-    struct tm *timeinfo;
-    time(&rawtime);
-    timeinfo = localtime(&rawtime);
-    strncpy(pos->data.time, asctime(timeinfo), 50);
-    sleep(2);
 }
 
 // delete task list
@@ -194,26 +195,30 @@ void deletetask()
     i = 0;
     printf("\n Enter task to delete\n");
     scanf("%d", &task);
-    nodeptr temp = list;
-    if (task - 1 == 0)
+    if (task <= length)
     {
-
-        list = list->next;
-        temp->next = NULL;
-        free(temp);
-    }
-    else
-    {
-        for (i = 0; i < task - 2; i++)
+        nodeptr temp = list;
+        if (task - 1 == 0)
         {
-            temp = temp->next;
+
+            list = list->next;
+            temp->next = NULL;
+            free(temp);
         }
-        nodeptr del = temp->next;
-        temp->next = temp->next->next;
-        del->next = NULL;
-        free(del);
+        else
+        {
+            for (i = 0; i < task - 2; i++)
+            {
+                temp = temp->next;
+            }
+            nodeptr del = temp->next;
+            temp->next = temp->next->next;
+            del->next = NULL;
+            free(del);
+        }
+        length--;
+        sleep(2);
     }
-    sleep(2);
 }
 // show all tasks
 void showtaks()

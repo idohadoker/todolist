@@ -6,6 +6,8 @@
 #include <ctype.h>
 #include <time.h>
 void showtaks();
+void deletetask();
+void createtask();
 
 typedef struct
 {
@@ -20,4 +22,5 @@ typedef struct List
     Data data;
     struct List *next;
 } node, *nodeptr;
+
 #endif // LIST_H
