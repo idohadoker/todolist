@@ -63,7 +63,7 @@ void addtask()
     }
     new_node->next = NULL;
     new_node->data = createtask();
-    if (strncmp(new_node->data.buffer, "exit", 5) != 0)
+    if (strncmp(new_node->data.buffer, "-1", 3) != 0)
     {
 
         if (list == NULL)

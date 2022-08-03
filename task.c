@@ -7,7 +7,7 @@ Task createtask()
 
     if (strncmp(new_task, "exit", 5) == 0)
     {
-        strncpy(task.buffer, "exit", 5);
+        strncpy(task.buffer, "-1", 5);
 
         printf("leaving program\n");
     }
@@ -26,13 +26,9 @@ Task createtask()
 
 int deletetasknumber()
 {
-    int i;
 
     int task;
     system("clear");
-    print_task();
-
-    i = 0;
     printf("\n Enter task to delete (press 0 to leave)\n");
     scanf("%d", &task);
     if (task == 0)
