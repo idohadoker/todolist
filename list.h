@@ -1,25 +1,11 @@
 #ifndef LIST_H
 #define LIST_H
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <time.h>
-void showtaks();
+#include "task.h"
 void deletetask();
-void createtask();
-
-typedef struct
-{
-    int position;
-    char buffer[100];
-    char time[50];
-    int state;
-} Data;
-
+void addtask();
 typedef struct List
 {
-    Data data;
+    Task data;
     struct List *next;
 } node, *nodeptr;
 
