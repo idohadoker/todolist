@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <time.h>
-typedef struct
+typedef struct Task
 {
     int position;
     char buffer[100];
@@ -13,7 +13,6 @@ typedef struct
     int state;
 } Task;
 int deletetasknumber();
-void edittask();
 Task createtask();
 
 #endif
