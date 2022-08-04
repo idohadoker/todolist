@@ -28,12 +28,8 @@ int deletetasknumber()
 {
 
     int task;
-    system("clear");
     printf("\n Enter task to delete (press 0 to leave)\n");
     scanf("%d", &task);
-    if (task == 0)
-    {
-        printf("leaving program\n");
-    }
+
     return task;
 }

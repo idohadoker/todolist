@@ -5,14 +5,6 @@ void mark_as_done();
 void showtasks();
 void print_task();
 nodeptr list = NULL;
-int length = 0;
-
-int main(int argc, char const *argv[])
-{
-
-    options();
-    return 0;
-}
 
 void options()
 {
@@ -96,7 +88,6 @@ void addtask()
         }
 
         free(new_node);
-        length++;
     }
     sleep(2);
 }
@@ -110,16 +101,17 @@ void edittask()
     system("clear");
     printf("\n-------------------------Edit Tasks-------------------------\n");
     print_task();
-    printf("\n Enter task to change (press 0 to leave)\n");
-    scanf("%d", &task);
-    if (task == 0)
+    if (list != NULL)
     {
-        printf("leaving program\n");
-    }
-    else
-    {
-        if (task <= length)
+        printf("\n Enter task to change (press 0 to leave)\n");
+        scanf("%d", &task);
+        if (task == 0)
         {
+            printf("leaving program\n");
+        }
+        else
+        {
+
             printf("\n Enter new task \n");
             scanf(" %99[a-zA-Z0-9 ]", new_task);
 
@@ -147,15 +139,18 @@ void deletetask()
     int i;
     int task;
     system("clear");
+    printf("\n-------------------------Delete Tasks-------------------------\n");
+
     print_task();
-    nodeptr pos = list;
-    pos = list;
-    i = 0;
-    task = deletetasknumber();
-    if (task == 0)
+    if (list != NULL)
     {
-        if (task <= length)
+        task = deletetasknumber();
+        if (task != NULL)
         {
+            nodeptr pos = list;
+            pos = list;
+            i = 0;
+
             nodeptr temp = list;
             if (task - 1 == 0)
             {
@@ -175,8 +170,11 @@ void deletetask()
                 del->next = NULL;
                 free(del);
             }
-            length--;
         }
+    }
+    else
+    {
+        printf("leaving program\n");
     }
     sleep(2);
 }
@@ -187,9 +185,11 @@ void showtasks()
     system("clear");
     printf("\n-------------------------Show Tasks-------------------------\n");
     print_task();
-
-    printf("\n press enter to key continue...\n");
-    getchar();
+    if (list != NULL)
+    {
+        printf("\n press enter to key continue...\n");
+        getchar();
+    }
 }
 
 // mark task as done
@@ -200,23 +200,26 @@ void mark_as_done()
     system("clear");
     printf("\n-------------------------Mark AS DONE-------------------------\n");
     print_task();
-    printf("\n Enter task to mark (press 0 to leave)\n");
-    scanf("%d", &task);
-    if (task == 0)
+    if (list != NULL)
     {
-        printf("leaving program\n");
-    }
-    else
-    {
-        pos = list;
-        i = 0;
-        while (i < task - 1)
+        printf("\n Enter task to mark (press 0 to leave)\n");
+        scanf("%d", &task);
+        if (task == 0)
         {
-            pos = pos->next;
-            i++;
+            printf("leaving program\n");
         }
-        if (pos->data.state == 0)
-            pos->data.state = 1;
+        else
+        {
+            pos = list;
+            i = 0;
+            while (i < task - 1)
+            {
+                pos = pos->next;
+                i++;
+            }
+            if (pos->data.state == 0)
+                pos->data.state = 1;
+        }
     }
     sleep(2);
 }
