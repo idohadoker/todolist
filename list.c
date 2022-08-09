@@ -1,43 +1,42 @@
 #include "list.h"
-void options();
-void edittask();
-void mark_as_done();
-void showtasks();
-void print_task();
+int options();
+static void edittask();
+static void mark_as_done();
+static void showtasks();
+static void print_task();
 nodeptr list = NULL;
 
-void options()
+int options()
 {
     int option;
-    while (1)
-    {
-        system("clear");
-        printf("Choose Option\n");
-        printf("1|-Show Tasks\n2|-Create a new task\n3|-Edit Task\n4|-Delete Task\n5|-Mark AS Done\n");
-        scanf(" %d", &option);
-        switch (option)
-        {
-        case 1:
-            showtasks();
-            break;
-        case 2:
-            addtask();
-            break;
-        case 3:
-            edittask();
-            break;
-        case 4:
-            deletetask();
-            break;
-        case 5:
-            mark_as_done();
-            break;
 
-        default:
-            break;
-        }
-        getchar();
+    system("clear");
+    printf("Choose Option\n");
+    printf("1|-Show Tasks\n2|-Create a new task\n3|-Edit Task\n4|-Delete Task\n5|-Mark AS Done\n");
+    scanf(" %d", &option);
+    switch (option)
+    {
+    case 1:
+        showtasks();
+        break;
+    case 2:
+        addtask();
+        break;
+    case 3:
+        edittask();
+        break;
+    case 4:
+        deletetask();
+        break;
+    case 5:
+        mark_as_done();
+        break;
+
+    default:
+        return -1;
+        break;
     }
+    return 1;
 }
 void addtask()
 {
@@ -93,9 +92,10 @@ void addtask()
 }
 
 // edit task and time
-void edittask()
+static void edittask()
 {
     int task, i;
+    int c;
     char new_task[100];
     nodeptr pos = list;
     system("clear");
@@ -114,7 +114,8 @@ void edittask()
 
             printf("\n Enter new task \n");
             scanf(" %99[a-zA-Z0-9 ]", new_task);
-
+            while ((c = fgetc(stdin)) != '\n' && c != EOF)
+                ;
             pos = list;
             i = 0;
             while (pos && i < task - 1)
@@ -180,7 +181,7 @@ void deletetask()
 }
 
 // show all tasks
-void showtasks()
+static void showtasks()
 {
     system("clear");
     printf("\n-------------------------Show Tasks-------------------------\n");
@@ -190,10 +191,11 @@ void showtasks()
         printf("\n press enter to key continue...\n");
         getchar();
     }
+    sleep(2);
 }
 
 // mark task as done
-void mark_as_done()
+static void mark_as_done()
 {
     int task, i;
     nodeptr pos;
@@ -224,7 +226,7 @@ void mark_as_done()
     sleep(2);
 }
 
-void print_task()
+static void print_task()
 {
     int i;
     if (list == NULL)
