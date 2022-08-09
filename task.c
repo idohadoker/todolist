@@ -3,8 +3,10 @@ Task createtask()
 {
     Task task;
     char new_task[100];
+    int c;
     scanf(" %99[a-zA-Z0-9 ]", new_task);
-
+    while ((c = fgetc(stdin)) != '\n' && c != EOF)
+        ;
     if (strncmp(new_task, "exit", 5) == 0)
     {
         strncpy(task.buffer, "-1", 5);
