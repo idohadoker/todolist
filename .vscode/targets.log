@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Aug  9 09:51:04 2022
+# Make data base, printed on Tue Aug  9 10:27:23 2022
 
 # Variables
 
@@ -89,7 +89,7 @@ MAKEFILE_LIST := makefile
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3215
+VSCODE_PID = 14328
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -181,7 +181,7 @@ MANAGERPID = 1813
 # environment
 LC_MEASUREMENT = en_US.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3215
+GIO_LAUNCHED_DESKTOP_FILE_PID = 14328
 # environment
 _ = /usr/share/code/code
 # environment
@@ -279,11 +279,11 @@ github:
 #  File has not been updated.
 #  recipe to execute (from 'makefile', line 4):
 	git init
+ 
 	git add .
 	git commit -m "upload"
 	git push origin master --force
 
- 
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
@@ -311,6 +311,6 @@ makefile:
 # strcache performance: lookups = 25 / hit rate = 32%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=0/25=0%
-# Finished Make data base on Tue Aug  9 09:51:04 2022
+# Finished Make data base on Tue Aug  9 10:27:23 2022
 
  
