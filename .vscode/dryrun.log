@@ -1,5 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/idohadoker/todo'
-gcc task.c list.c main.c -o main
-make: Leaving directory '/home/idohadoker/todo'
- 
